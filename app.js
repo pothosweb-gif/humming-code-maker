@@ -165,7 +165,8 @@ async function fetchCodesFromAPI(notes) {
     });
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(`API error: ${response.status} - ${errData.message || errData.error || 'unknown'}`);
     }
 
     const data = await response.json();
