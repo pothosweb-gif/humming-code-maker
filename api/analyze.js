@@ -46,7 +46,7 @@ Chord progression:`;
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'claude-3-5-haiku-20241022',
         max_tokens: 200,
         messages: [
           { role: 'user', content: prompt }
@@ -55,7 +55,8 @@ Chord progression:`;
     });
 
     if (!response.ok) {
-      throw new Error(`Anthropic API error: ${response.status}`);
+      const errorBody = await response.text();
+      throw new Error(`Anthropic API error: ${response.status} - ${errorBody}`);
     }
 
     const data = await response.json();
