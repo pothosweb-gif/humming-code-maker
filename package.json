@@ -1,0 +1,12 @@
+{
+  "name": "humming-code-maker-backend",
+  "version": "1.0.0",
+  "description": "鼻歌からコード進行を推測するAPI",
+  "main": "api/analyze.js",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  }
+}

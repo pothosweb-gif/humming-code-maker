@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鼻歌コードメーカー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>鼻歌コードメーカー</h1>
+      <p class="subtitle">監修 rieco</p>
+    </div>
+
+    <div class="card">
+      <div class="step">
+        <label>ステップ1: MP3ファイルをアップロード</label>
+        <input type="file" id="audioFile" accept="audio/mp3,audio/mpeg">
+        <p class="hint">MP3形式の鼻歌ファイル（10秒～1分程度推奨）</p>
+      </div>
+
+      <div class="step">
+        <button id="analyzeBtn" class="button-primary">
+          ステップ2: コードを推測する
+        </button>
+      </div>
+
+      <div id="loading" class="loading" style="display: none;">
+        <p>処理中です...（周波数解析＆AI推測）</p>
+      </div>
+
+      <div id="errorContainer" class="error" style="display: none;">
+        <p id="errorMessage"></p>
+      </div>
+
+      <div id="resultContainer" class="step" style="display: none;">
+        <label>ステップ3: 推測されたコード進行</label>
+        <div class="result-box">
+          <p id="codeResult" class="code-text"></p>
+        </div>
+        <button id="copyBtn" class="button-secondary">コードをコピー</button>
+        <div class="note">
+          <p>💡 AI推測です。実際にギターで確認してから使用してください。v2では精度を大幅アップします。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>v1: Web Audio API + Claude API<br>v2: librosa + 高精度解析</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
