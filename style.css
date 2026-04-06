@@ -246,10 +246,9 @@ body {
 .chord-card {
   background: white;
   border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 12px 10px 8px;
+  border-radius: 16px;
+  padding: 12px 12px 10px;
   text-align: center;
-  min-width: 72px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   transition: transform 0.15s;
 }
@@ -259,10 +258,27 @@ body {
 }
 
 .chord-card-name {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #7c3aed;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.chord-diagrams-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.diagram-wrap {
+  text-align: center;
+}
+
+.diagram-label {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 4px;
 }
 
 .chord-canvas {

@@ -217,7 +217,9 @@ function renderChordDiagrams(chordsText) {
   const chordNames = chordsText.split(/\s*[\|→]\s*/).map(s => s.trim()).filter(Boolean);
 
   for (const name of chordNames) {
-    const data = CHORD_DATA[name];
+    const guitarData = CHORD_DATA[name];
+    const pianoNotes = getPianoNotes(name);
+
     const card = document.createElement('div');
     card.className = 'chord-card';
 
@@ -226,16 +228,37 @@ function renderChordDiagrams(chordsText) {
     nameEl.textContent = name;
     card.appendChild(nameEl);
 
-    if (data) {
-      const canvas = drawChordDiagram(name, data);
-      card.appendChild(canvas);
-    } else {
-      const unknown = document.createElement('div');
-      unknown.style.cssText = 'font-size:11px;color:#aaa;padding:8px 0;';
-      unknown.textContent = '図なし';
-      card.appendChild(unknown);
-    }
+    const diagramsRow = document.createElement('div');
+    diagramsRow.className = 'chord-diagrams-row';
 
+    // ギター図
+    const guitarWrap = document.createElement('div');
+    guitarWrap.className = 'diagram-wrap';
+    const guitarLabel = document.createElement('div');
+    guitarLabel.className = 'diagram-label';
+    guitarLabel.textContent = '🎸';
+    guitarWrap.appendChild(guitarLabel);
+    if (guitarData) {
+      guitarWrap.appendChild(drawChordDiagram(name, guitarData));
+    } else {
+      const n = document.createElement('div');
+      n.style.cssText = 'font-size:10px;color:#aaa;padding:4px 0;';
+      n.textContent = '図なし';
+      guitarWrap.appendChild(n);
+    }
+    diagramsRow.appendChild(guitarWrap);
+
+    // ピアノ図
+    const pianoWrap = document.createElement('div');
+    pianoWrap.className = 'diagram-wrap';
+    const pianoLabel = document.createElement('div');
+    pianoLabel.className = 'diagram-label';
+    pianoLabel.textContent = '🎹';
+    pianoWrap.appendChild(pianoLabel);
+    pianoWrap.appendChild(drawPianoDiagram(pianoNotes));
+    diagramsRow.appendChild(pianoWrap);
+
+    card.appendChild(diagramsRow);
     chordDiagramsEl.appendChild(card);
   }
 }
@@ -335,6 +358,117 @@ function drawChordDiagram(name, data) {
         ctx.arc(x, y, 5, 0, Math.PI * 2);
         ctx.fill();
       }
+    }
+  }
+
+  return canvas;
+}
+
+// =====================
+// ピアノコードデータ
+// 各コードの構成音（半音インデックス 0=C, 1=C#, ... 11=B）
+// =====================
+const NOTE_TO_SEMITONE = {
+  'C':0,'C#':1,'Db':1,'D':2,'D#':3,'Eb':3,
+  'E':4,'F':5,'F#':6,'Gb':6,'G':7,'G#':8,'Ab':8,
+  'A':9,'A#':10,'Bb':10,'B':11
+};
+
+const CHORD_INTERVALS = {
+  '':    [0, 4, 7],        // Major
+  'm':   [0, 3, 7],        // Minor
+  '7':   [0, 4, 7, 10],    // Dominant 7th
+  'maj7':[0, 4, 7, 11],    // Major 7th
+  'm7':  [0, 3, 7, 10],    // Minor 7th
+  'sus2':[0, 2, 7],        // Sus2
+  'sus4':[0, 5, 7],        // Sus4
+  'dim': [0, 3, 6],        // Diminished
+  'aug': [0, 4, 8],        // Augmented
+  'add9':[0, 4, 7, 14],    // Add9
+};
+
+function getPianoNotes(chordName) {
+  // コード名をルート音とタイプに分解
+  const match = chordName.match(/^([A-G][#b]?)(m7|maj7|sus2|sus4|dim|aug|add9|m|7)?$/);
+  if (!match) return [];
+
+  const root = match[1];
+  const type = match[2] || '';
+  const rootSemitone = NOTE_TO_SEMITONE[root];
+  if (rootSemitone === undefined) return [];
+
+  const intervals = CHORD_INTERVALS[type] || CHORD_INTERVALS[''];
+  return intervals.map(i => (rootSemitone + i) % 12);
+}
+
+function drawPianoDiagram(highlightedSemitones) {
+  const canvas = document.createElement('canvas');
+  canvas.className = 'chord-canvas';
+  const scale = window.devicePixelRatio || 1;
+  const W = 80, H = 44;
+  canvas.width = W * scale;
+  canvas.height = H * scale;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(scale, scale);
+
+  // 1オクターブ分（C〜B）の鍵盤を描画
+  const whiteKeys = [0, 2, 4, 5, 7, 9, 11]; // C D E F G A B
+  const blackKeys = [1, 3, -1, 6, 8, 10, -1]; // C# D# - F# G# A# -
+  const blackPositions = [0, 1, -1, 3, 4, 5, -1]; // 白鍵のどこに黒鍵があるか
+
+  const wCount = 7;
+  const wW = Math.floor(W / wCount);
+  const wH = H - 2;
+  const bW = Math.floor(wW * 0.6);
+  const bH = Math.floor(wH * 0.6);
+
+  const highlightSet = new Set(highlightedSemitones);
+
+  // 白鍵
+  for (let i = 0; i < wCount; i++) {
+    const semitone = whiteKeys[i];
+    const x = i * wW;
+    const isHighlight = highlightSet.has(semitone);
+
+    ctx.fillStyle = isHighlight ? '#a855f7' : 'white';
+    ctx.strokeStyle = '#ccc';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(x + 1, 1, wW - 2, wH - 2, [0, 0, 4, 4]);
+    ctx.fill();
+    ctx.stroke();
+
+    if (isHighlight) {
+      // ルート音に小さいドット
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.beginPath();
+      ctx.arc(x + wW / 2, wH - 8, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // 黒鍵
+  for (let i = 0; i < blackPositions.length; i++) {
+    if (blackPositions[i] === -1) continue;
+    const semitone = blackKeys[i];
+    if (semitone === -1) continue;
+
+    const x = blackPositions[i] * wW + wW - Math.floor(bW / 2);
+    const isHighlight = highlightSet.has(semitone);
+
+    ctx.fillStyle = isHighlight ? '#7c3aed' : '#333';
+    ctx.beginPath();
+    ctx.roundRect(x, 1, bW, bH, [0, 0, 3, 3]);
+    ctx.fill();
+
+    if (isHighlight) {
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.beginPath();
+      ctx.arc(x + bW / 2, bH - 5, 2.5, 0, Math.PI * 2);
+      ctx.fill();
     }
   }
 
