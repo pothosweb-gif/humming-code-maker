@@ -3,75 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>鼻歌コードメーカー</title>
+  <title>鼻歌コードメーカー | 鼻歌からコード進行を瞬時に解析</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>🎵 鼻歌コードメーカー</h1>
-      <p class="subtitle">監修 rieco</p>
-    </div>
 
-    <div class="card">
+  <!-- ヒーローセクション -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="badge">✦ AI Powered Music Tool</div>
+      <h1 class="hero-title">
+        <span class="title-en">Humming</span><br>
+        <span class="title-ja">鼻歌コードメーカー</span>
+      </h1>
+      <p class="hero-desc">
+        鼻歌を録音するだけで、AIがコード進行を瞬時に解析。<br>
+        ギター・ピアノのコード図も同時に表示します。
+      </p>
+      <div class="hero-meta">監修 <strong>rieco</strong></div>
+    </div>
+    <!-- 音符デコレーション -->
+    <div class="music-notes">
+      <span class="mn mn1">♪</span>
+      <span class="mn mn2">♫</span>
+      <span class="mn mn3">♩</span>
+      <span class="mn mn4">♬</span>
+      <span class="mn mn5">♪</span>
+    </div>
+  </section>
+
+  <!-- 特徴セクション -->
+  <section class="features">
+    <div class="features-inner">
+      <div class="feature-item">
+        <div class="feature-icon">🎤</div>
+        <div class="feature-text">
+          <strong>鼻歌を録音</strong>
+          <span>MP3・M4A対応</span>
+        </div>
+      </div>
+      <div class="feature-divider">→</div>
+      <div class="feature-item">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-text">
+          <strong>AIが解析</strong>
+          <span>Claude AI搭載</span>
+        </div>
+      </div>
+      <div class="feature-divider">→</div>
+      <div class="feature-item">
+        <div class="feature-icon">🎸</div>
+        <div class="feature-text">
+          <strong>コード図を表示</strong>
+          <span>ギター＋ピアノ</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- メインアプリカード -->
+  <main class="main-content">
+    <div class="app-card">
+
       <!-- ステップ1 -->
-      <div class="step">
-        <label>Step 1 &nbsp;音声ファイルをアップロード</label>
+      <div class="step-section">
+        <div class="step-header">
+          <div class="step-num">01</div>
+          <div class="step-title">音声ファイルをアップロード</div>
+        </div>
         <div class="file-upload-area" id="uploadArea">
           <input type="file" id="audioFile" accept="audio/mp3,audio/mpeg,audio/mp4,audio/x-m4a,.m4a">
           <div class="file-upload-icon">🎤</div>
-          <div class="file-upload-text">ファイルを選択 または ドロップ</div>
+          <div class="file-upload-text">クリックまたはドラッグ＆ドロップ</div>
           <div class="file-upload-hint">MP3 / M4A（10秒〜1分程度推奨）</div>
         </div>
-        <div class="file-name-display" id="fileNameDisplay">📄 <span id="fileNameText"></span></div>
+        <div class="file-name-display" id="fileNameDisplay">
+          <span class="file-icon">🎵</span>
+          <span id="fileNameText"></span>
+        </div>
       </div>
 
+      <div class="step-divider"></div>
+
       <!-- ステップ2 -->
-      <div class="step">
+      <div class="step-section">
+        <div class="step-header">
+          <div class="step-num">02</div>
+          <div class="step-title">AIにコードを推測させる</div>
+        </div>
         <button id="analyzeBtn" class="button-primary">
-          🎸 Step 2 &nbsp;コードを推測する
+          <span class="btn-icon">✦</span>
+          コードを解析する
         </button>
       </div>
 
       <!-- ローディング -->
       <div id="loading" class="loading" style="display: none;">
-        <span class="loading-spinner">🎵</span>
-        <p>解析中… 周波数を読み取っています</p>
+        <div class="loading-wave">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p>AIが周波数を解析中…</p>
       </div>
 
       <!-- エラー -->
       <div id="errorContainer" class="error" style="display: none;">
+        <span>⚠️</span>
         <p id="errorMessage"></p>
       </div>
 
       <!-- 結果 -->
-      <div id="resultContainer" class="step" style="display: none;">
-        <label>Step 3 &nbsp;推測されたコード進行</label>
-        <div class="result-box">
-          <p id="codeResult" class="code-text"></p>
-        </div>
+      <div id="resultContainer" class="result-section" style="display: none;">
+        <div class="step-divider"></div>
+        <div class="step-section">
+          <div class="step-header">
+            <div class="step-num">03</div>
+            <div class="step-title">推測されたコード進行</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label">Chord Progression</div>
+            <p id="codeResult" class="code-text"></p>
+          </div>
 
-        <!-- コード図 -->
-        <div class="chord-diagrams" id="chordDiagrams"></div>
+          <!-- コード図 -->
+          <div class="chord-diagrams" id="chordDiagrams"></div>
 
-        <button id="copyBtn" class="button-secondary">📋 コードをコピー</button>
+          <button id="copyBtn" class="button-secondary">
+            <span>📋</span> コードをコピー
+          </button>
 
-        <div class="note">
-          <p>💡 AI推測です。実際にギターで確認してから使用してください。v2では精度を大幅アップします。</p>
+          <div class="note">
+            <span class="note-icon">💡</span>
+            <p>AI推測です。実際にギターで確認してから使用してください。v2では精度を大幅アップします。</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="footer">
-      <p>v1: Web Audio API + Claude AI</p>
-      <p>v2: librosa + 高精度解析（開発予定）</p>
-      <p style="margin-top: 0.8rem;">
-        ギターコードを簡単に押さえたい場合は、<br>
-        <a href="https://pothosweb-gif.github.io/guitar-capo-tool/" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.9); font-weight: 600; text-decoration: underline;">ギターカポタスト変換ツール</a>
-        をお使いください。
-      </p>
+    </div><!-- /.app-card -->
+  </main>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">🎵 鼻歌コードメーカー</div>
+      <div class="footer-links">
+        <p>v1: Web Audio API + Claude AI &nbsp;|&nbsp; v2: librosa + 高精度解析（開発予定）</p>
+        <p>
+          ギターコードを簡単に押さえたい場合は
+          <a href="https://pothosweb-gif.github.io/guitar-capo-tool/" target="_blank" rel="noopener">
+            ギターカポタスト変換ツール
+          </a>
+          をお使いください。
+        </p>
+      </div>
     </div>
-  </div>
+  </footer>
 
   <script src="app.js"></script>
 </body>

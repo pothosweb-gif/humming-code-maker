@@ -27,7 +27,7 @@ fileInput.addEventListener('change', () => {
 
 function showError(msg) {
   errorMessage.textContent = msg;
-  errorContainer.style.display = 'block';
+  errorContainer.style.display = 'flex';
   resultContainer.style.display = 'none';
   loadingDiv.style.display = 'none';
 }
@@ -287,17 +287,17 @@ function drawChordDiagram(name, data) {
 
   // ナット or フレット番号
   if (offset === 0) {
-    ctx.fillStyle = '#333';
+    ctx.fillStyle = '#c9a84c';
     ctx.fillRect(left - 1, top, (strings - 1) * strGap + 2, 3);
   } else {
-    ctx.fillStyle = '#888';
+    ctx.fillStyle = '#9994a8';
     ctx.font = '9px sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(offset + 1 + 'fr', 0, top + fretGap * 0.6);
   }
 
   // フレット線
-  ctx.strokeStyle = '#ddd';
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
   ctx.lineWidth = 1;
   for (let f = 0; f <= fretCount; f++) {
     const y = top + f * fretGap;
@@ -308,7 +308,7 @@ function drawChordDiagram(name, data) {
   }
 
   // 弦
-  ctx.strokeStyle = '#bbb';
+  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
   ctx.lineWidth = 1;
   for (let s = 0; s < strings; s++) {
     const x = left + s * strGap;
@@ -321,7 +321,7 @@ function drawChordDiagram(name, data) {
   // バレー
   if (data.barre) {
     const by = top + (data.barre - offset - 0.5) * fretGap;
-    ctx.fillStyle = '#7c3aed';
+    ctx.fillStyle = '#c9a84c';
     ctx.beginPath();
     ctx.roundRect(left - 2, by - 6, (strings - 1) * strGap + 4, 12, 6);
     ctx.fill();
@@ -334,7 +334,7 @@ function drawChordDiagram(name, data) {
 
     if (fret === -1) {
       // ミュート
-      ctx.strokeStyle = '#e11d48';
+      ctx.strokeStyle = '#fb7185';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(x - 4, top - 10);
@@ -344,7 +344,7 @@ function drawChordDiagram(name, data) {
       ctx.stroke();
     } else if (fret === 0) {
       // 開放弦
-      ctx.strokeStyle = '#7c3aed';
+      ctx.strokeStyle = '#c9a84c';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.arc(x, top - 6, 4, 0, Math.PI * 2);
@@ -353,7 +353,7 @@ function drawChordDiagram(name, data) {
       const adjFret = fret - offset;
       if (adjFret > 0 && adjFret <= fretCount) {
         const y = top + (adjFret - 0.5) * fretGap;
-        ctx.fillStyle = data.barre && fret === data.barre ? 'rgba(255,255,255,0.0)' : '#7c3aed';
+        ctx.fillStyle = data.barre && fret === data.barre ? 'rgba(255,255,255,0.0)' : '#c9a84c';
         ctx.beginPath();
         ctx.arc(x, y, 5, 0, Math.PI * 2);
         ctx.fill();
@@ -433,8 +433,8 @@ function drawPianoDiagram(highlightedSemitones) {
     const x = i * wW;
     const isHighlight = highlightSet.has(semitone);
 
-    ctx.fillStyle = isHighlight ? '#a855f7' : 'white';
-    ctx.strokeStyle = '#ccc';
+    ctx.fillStyle = isHighlight ? '#c9a84c' : '#f0ece0';
+    ctx.strokeStyle = '#bbb';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.roundRect(x + 1, 1, wW - 2, wH - 2, [0, 0, 4, 4]);
@@ -442,8 +442,7 @@ function drawPianoDiagram(highlightedSemitones) {
     ctx.stroke();
 
     if (isHighlight) {
-      // ルート音に小さいドット
-      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fillStyle = 'rgba(26,18,0,0.5)';
       ctx.beginPath();
       ctx.arc(x + wW / 2, wH - 8, 3, 0, Math.PI * 2);
       ctx.fill();
@@ -459,13 +458,13 @@ function drawPianoDiagram(highlightedSemitones) {
     const x = blackPositions[i] * wW + wW - Math.floor(bW / 2);
     const isHighlight = highlightSet.has(semitone);
 
-    ctx.fillStyle = isHighlight ? '#7c3aed' : '#333';
+    ctx.fillStyle = isHighlight ? '#e8c97a' : '#1a1a2a';
     ctx.beginPath();
     ctx.roundRect(x, 1, bW, bH, [0, 0, 3, 3]);
     ctx.fill();
 
     if (isHighlight) {
-      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.fillStyle = 'rgba(26,18,0,0.4)';
       ctx.beginPath();
       ctx.arc(x + bW / 2, bH - 5, 2.5, 0, Math.PI * 2);
       ctx.fill();
