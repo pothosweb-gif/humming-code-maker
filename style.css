@@ -130,12 +130,26 @@ body > * {
   margin-bottom: 4px;
 }
 
-.title-ja {
+.title-sub {
   display: block;
-  font-size: clamp(1rem, 4vw, 1.4rem);
+  font-size: clamp(0.9rem, 3.5vw, 1.2rem);
   font-weight: 500;
   color: var(--text-secondary);
   letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.title-free {
+  display: inline-block;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(0.65rem, 2vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--bg-dark);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  padding: 5px 18px;
+  border-radius: 100px;
+  margin-top: 10px;
 }
 
 .hero-desc {
@@ -154,6 +168,18 @@ body > * {
 .hero-meta strong {
   color: var(--gold);
   font-weight: 600;
+}
+
+.hero-link {
+  color: var(--gold-light);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.hero-link:hover {
+  color: var(--gold);
 }
 
 /* 音符アニメーション */
@@ -640,10 +666,20 @@ body > * {
 }
 
 .footer-brand {
-  font-size: 14px;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
   font-weight: 700;
   color: var(--gold);
   margin-bottom: 12px;
+  letter-spacing: 1px;
+  line-height: 1.4;
+}
+
+.footer-brand-sub {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
   letter-spacing: 1px;
 }
 
