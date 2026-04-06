@@ -9,37 +9,53 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>鼻歌コードメーカー</h1>
+      <h1>🎵 鼻歌コードメーカー</h1>
       <p class="subtitle">監修 rieco</p>
     </div>
 
     <div class="card">
+      <!-- ステップ1 -->
       <div class="step">
-        <label>ステップ1: 音声ファイルをアップロード（MP3 / M4A）</label>
-        <input type="file" id="audioFile" accept="audio/mp3,audio/mpeg,audio/mp4,audio/x-m4a,.m4a">
-        <p class="hint">MP3 / M4A形式の鼻歌ファイル（10秒～1分程度推奨）</p>
+        <label>Step 1 &nbsp;音声ファイルをアップロード</label>
+        <div class="file-upload-area" id="uploadArea">
+          <input type="file" id="audioFile" accept="audio/mp3,audio/mpeg,audio/mp4,audio/x-m4a,.m4a">
+          <div class="file-upload-icon">🎤</div>
+          <div class="file-upload-text">ファイルを選択 または ドロップ</div>
+          <div class="file-upload-hint">MP3 / M4A（10秒〜1分程度推奨）</div>
+        </div>
+        <div class="file-name-display" id="fileNameDisplay">📄 <span id="fileNameText"></span></div>
       </div>
 
+      <!-- ステップ2 -->
       <div class="step">
         <button id="analyzeBtn" class="button-primary">
-          ステップ2: コードを推測する
+          🎸 Step 2 &nbsp;コードを推測する
         </button>
       </div>
 
+      <!-- ローディング -->
       <div id="loading" class="loading" style="display: none;">
-        <p>処理中です...（周波数解析＆AI推測）</p>
+        <span class="loading-spinner">🎵</span>
+        <p>解析中… 周波数を読み取っています</p>
       </div>
 
+      <!-- エラー -->
       <div id="errorContainer" class="error" style="display: none;">
         <p id="errorMessage"></p>
       </div>
 
+      <!-- 結果 -->
       <div id="resultContainer" class="step" style="display: none;">
-        <label>ステップ3: 推測されたコード進行</label>
+        <label>Step 3 &nbsp;推測されたコード進行</label>
         <div class="result-box">
           <p id="codeResult" class="code-text"></p>
         </div>
-        <button id="copyBtn" class="button-secondary">コードをコピー</button>
+
+        <!-- コード図 -->
+        <div class="chord-diagrams" id="chordDiagrams"></div>
+
+        <button id="copyBtn" class="button-secondary">📋 コードをコピー</button>
+
         <div class="note">
           <p>💡 AI推測です。実際にギターで確認してから使用してください。v2では精度を大幅アップします。</p>
         </div>
@@ -47,7 +63,8 @@
     </div>
 
     <div class="footer">
-      <p>v1: Web Audio API + Claude API<br>v2: librosa + 高精度解析</p>
+      <p>v1: Web Audio API + Claude AI</p>
+      <p>v2: librosa + 高精度解析（開発予定）</p>
     </div>
   </div>
 
