@@ -392,39 +392,62 @@ body > * {
 
 .file-icon { font-size: 1rem; }
 
-/* デモボタン */
-.demo-area {
+/* デモ区切り */
+.demo-divider {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 14px;
+  gap: 10px;
+  margin: 16px 0 10px;
 }
 
-.demo-label {
-  font-size: 12px;
+.demo-divider::before,
+.demo-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+
+.demo-divider span {
+  font-size: 11px;
   color: var(--text-muted);
   white-space: nowrap;
+  letter-spacing: 0.3px;
 }
 
+/* デモボタン */
 .button-demo {
-  flex: 1;
-  padding: 10px 16px;
-  border: 1px dashed rgba(201,168,76,0.4);
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px dashed rgba(201,168,76,0.35);
   border-radius: 12px;
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  background: rgba(201,168,76,0.06);
-  color: var(--gold-light);
+  background: rgba(201,168,76,0.05);
+  color: var(--gold);
   letter-spacing: 0.3px;
 }
 
 .button-demo:hover {
-  background: rgba(201,168,76,0.12);
+  background: rgba(201,168,76,0.1);
   border-color: var(--gold);
   border-style: solid;
+}
+
+.button-demo:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* デモ中のファイル表示 */
+.file-name-display.is-demo {
+  background: rgba(201,168,76,0.06);
+  border-color: rgba(201,168,76,0.25);
+  color: var(--text-muted);
+  font-style: italic;
 }
 
 /* ===========================
@@ -468,6 +491,26 @@ body > * {
   opacity: 0.4;
   cursor: not-allowed;
   transform: none;
+}
+
+.button-primary.is-disabled-demo {
+  opacity: 0.25;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(60%);
+  position: relative;
+}
+
+.button-primary.is-disabled-demo::after {
+  content: '音声ファイルを選択してください';
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.3px;
 }
 
 .btn-icon {

@@ -30,9 +30,11 @@ demoBtn.addEventListener('click', async () => {
   loadingDiv.style.display = 'block';
   resultContainer.style.display = 'none';
 
-  // ファイル名表示をデモ表示に
-  fileNameText.textContent = 'テストデータ（サンプルメロディ）';
+  // デモ表示に切り替え
+  fileInput.value = '';
+  fileNameText.textContent = '🎹 テストデータ（サンプルメロディ）で解析中…';
   fileNameDisplay.style.display = 'flex';
+  fileNameDisplay.classList.add('is-demo');
 
   try {
     const chords = await fetchCodesFromAPI(DEMO_NOTES);
@@ -40,22 +42,32 @@ demoBtn.addEventListener('click', async () => {
     codeResult.textContent = chords;
     resultContainer.style.display = 'block';
     renderChordDiagrams(chords);
+    // デモ完了後：解析ボタンを無効化・暗く表示
+    analyzeBtn.disabled = true;
+    analyzeBtn.classList.add('is-disabled-demo');
   } catch (err) {
     console.error('Demo Error:', err);
     showError(`エラーが発生しました: ${err.message}`);
+    analyzeBtn.disabled = false;
+    analyzeBtn.classList.remove('is-disabled-demo');
   } finally {
     demoBtn.disabled = false;
-    analyzeBtn.disabled = false;
   }
 });
 
 let audioContext = null;
 
-// ファイル選択時にファイル名を表示
+// ファイル選択時にファイル名を表示（デモ表示をクリアして上書き）
 fileInput.addEventListener('change', () => {
   if (fileInput.files.length) {
     fileNameText.textContent = fileInput.files[0].name;
-    fileNameDisplay.style.display = 'block';
+    fileNameDisplay.style.display = 'flex';
+    fileNameDisplay.classList.remove('is-demo');
+    resultContainer.style.display = 'none';
+    clearError();
+    // 解析ボタンを再度有効化
+    analyzeBtn.disabled = false;
+    analyzeBtn.classList.remove('is-disabled-demo');
   }
 });
 
