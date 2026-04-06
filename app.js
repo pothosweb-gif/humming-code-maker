@@ -29,7 +29,7 @@ analyzeBtn.addEventListener('click', async () => {
   clearError();
 
   if (!fileInput.files.length) {
-    showError('MP3ファイルを選択してください');
+    showError('音声ファイルを選択してください（MP3 / M4A）');
     return;
   }
 
@@ -85,7 +85,7 @@ async function readAudioFile(file) {
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
         resolve(audioBuffer);
       } catch (err) {
-        reject(new Error('MP3デコードエラー'));
+        reject(new Error('音声デコードエラー（MP3またはM4A形式を確認してください）'));
       }
     };
     reader.onerror = () => reject(new Error('ファイル読み込みエラー'));
