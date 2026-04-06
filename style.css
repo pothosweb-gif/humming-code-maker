@@ -392,6 +392,41 @@ body > * {
 
 .file-icon { font-size: 1rem; }
 
+/* デモボタン */
+.demo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.demo-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.button-demo {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px dashed rgba(201,168,76,0.4);
+  border-radius: 12px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(201,168,76,0.06);
+  color: var(--gold-light);
+  letter-spacing: 0.3px;
+}
+
+.button-demo:hover {
+  background: rgba(201,168,76,0.12);
+  border-color: var(--gold);
+  border-style: solid;
+}
+
 /* ===========================
    ボタン
 =========================== */

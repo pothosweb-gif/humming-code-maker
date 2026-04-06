@@ -5,6 +5,7 @@ const API_URL = (window.location.hostname === 'localhost' || window.location.hos
 
 const fileInput = document.getElementById('audioFile');
 const analyzeBtn = document.getElementById('analyzeBtn');
+const demoBtn = document.getElementById('demoBtn');
 const copyBtn = document.getElementById('copyBtn');
 const loadingDiv = document.getElementById('loading');
 const resultContainer = document.getElementById('resultContainer');
@@ -14,6 +15,39 @@ const errorMessage = document.getElementById('errorMessage');
 const fileNameDisplay = document.getElementById('fileNameDisplay');
 const fileNameText = document.getElementById('fileNameText');
 const chordDiagramsEl = document.getElementById('chordDiagrams');
+
+// デモ用ダミーデータ（ポップスによく使われる音符の流れ）
+const DEMO_NOTES = [
+  'C', 'E', 'G', 'E', 'C', 'D', 'F', 'A', 'F', 'D',
+  'G', 'B', 'D', 'B', 'G', 'A', 'C', 'E', 'C', 'A',
+  'F', 'A', 'C', 'A', 'F', 'G', 'B', 'D', 'B', 'G'
+];
+
+demoBtn.addEventListener('click', async () => {
+  clearError();
+  demoBtn.disabled = true;
+  analyzeBtn.disabled = true;
+  loadingDiv.style.display = 'block';
+  resultContainer.style.display = 'none';
+
+  // ファイル名表示をデモ表示に
+  fileNameText.textContent = 'テストデータ（サンプルメロディ）';
+  fileNameDisplay.style.display = 'flex';
+
+  try {
+    const chords = await fetchCodesFromAPI(DEMO_NOTES);
+    loadingDiv.style.display = 'none';
+    codeResult.textContent = chords;
+    resultContainer.style.display = 'block';
+    renderChordDiagrams(chords);
+  } catch (err) {
+    console.error('Demo Error:', err);
+    showError(`エラーが発生しました: ${err.message}`);
+  } finally {
+    demoBtn.disabled = false;
+    analyzeBtn.disabled = false;
+  }
+});
 
 let audioContext = null;
 
