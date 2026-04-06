@@ -24,17 +24,20 @@ module.exports = async function handler(req, res) {
     }
 
     const notesText = notes.join(' → ');
-    const prompt = `You are a music theory expert and guitarist. Given this melody note sequence detected from a humming recording:
+    const prompt = `You are a music theory expert. Given this melody note sequence:
 
 ${notesText}
 
-Analyze this melody and suggest a likely chord progression.
+Output ONLY a chord progression as a single line. No explanation, no analysis, no markdown.
 
-Return ONLY the chord progression in this exact format:
-- Use standard chord names (C, Cm, Cmaj7, C7, Csus4, etc.)
-- Separate chords with " → "
-- Return 4-8 chords
-- Example format: G → D → Em → A or Am → E7 → Am → Dm
+Rules:
+- Use standard chord names (C, Cm, Cmaj7, C7, etc.)
+- Separate chords with " | "
+- Output 4 to 8 chords
+- Output the chord progression ONLY, nothing else
+
+Example output:
+G#m | C# | D# | F#
 
 Chord progression:`;
 
